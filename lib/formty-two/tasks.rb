@@ -1,3 +1,5 @@
+require 'rake'
+require 'rake/dsl_definition'
 require 'formty-two'
 
 namespace :formty do
