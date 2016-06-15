@@ -7,7 +7,7 @@ class FormtyTwo
 
     google_form = ['https://docs.google.com/forms/d/', '/viewform']
 
-    if !form_id
+    if !form_id || form_id = ''
       return false
     end
 
