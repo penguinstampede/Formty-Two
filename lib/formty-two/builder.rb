@@ -1,11 +1,24 @@
+require 'fileutils'
+require 'erb'
+
 class FormtyTwo::Builder
-  def initialize(questions)
+  attr_reader :html
+
+  def initialize(form_id, questions, template_language, framework_language)
+    @form_id = form_id
     @questions = questions
+    @template_language = template_language
+    @templates_folder = File.dirname(__FILE__) + "/templates/" + template_language + '-' + framework_language
     @html = ''
   end
 
   def formerate
-    slim_form = File.new("test.slim", 'w')
+
+    unless File.exists?('forms')
+      FileUtils::mkdir_p 'forms'
+    end
+
+    template_file = File.new("forms/#{ @form_id }.#{ @template_language }", 'w')
     @questions.each do |key, question|
       case question[:type]
       when 'radio'
@@ -16,45 +29,35 @@ class FormtyTwo::Builder
         @html << create_textinput(key, question)
       end
     end
-    slim_form.puts(@html)
-    slim_form.close
+    template_file.puts(@html)
+    template_file.close
     return true
   end
 
   def create_textinput(name, question)
-    html = '.row' + "\r\n"
-    html << "\t" + 'small-12.columns' + "\r\n"
-    html << "\t\t" + "label #{ question[:label] }" + "\r\n"
-    html << "\t\t\t" + "input type=\"text\" name=\"#{ name }\"" + "\r\n"
+    @name = name
+    @question = question
 
+    source = "#{ @templates_folder }/text-input.erb"
+    html = ERB.new(File.read(source)).result(binding)
     return html
   end
 
   def create_checkboxes(name, question)
-    html = '.row' + "\r\n"
-    html << "\t" + 'fieldset.small-12.columns' + "\r\n"
-    html << "\t\t" + "legend #{ question[:label] }" + "\r\n"
+    @name = name
+    @question = question
 
-    question[:answers].each_with_index do |answer, index|
-      input_id = "#{ name }_#{ index }"
-      html << "\t\t" + "input##{ input_id } type=\"checkbox\" name=\"#{ name }[]\" value=\"#{ answer }\"" + "\r\n"
-      html << "\t\t" + "label for=\"#{ input_id }\" #{ answer }" + "\r\n"
-    end
-
+    source = "#{ @templates_folder }/checkbox-input.erb"
+    html = ERB.new(File.read(source)).result(binding)
     return html
   end
 
   def create_radio(name, question)
-    html = '.row' + "\r\n"
-    html << "\t" + 'fieldset.small-12.columns' + "\r\n"
-    html << "\t\t" + "legend #{ question[:label] }" + "\r\n"
+    @name = name
+    @question = question
 
-    question[:answers].each_with_index do |answer, index|
-      input_id = "#{ name }_#{ index }"
-      html << "\t\t" + "input##{ input_id } type=\"radio\" name=\"#{ name }\" value=\"#{ answer }\"" + "\r\n"
-      html << "\t\t" + "label for=\"#{ input_id }\" #{ answer }" + "\r\n"
-    end
-
+    source = "#{ @templates_folder }/radio-input.erb"
+    html = ERB.new(File.read(source)).result(binding)
     return html
   end
 

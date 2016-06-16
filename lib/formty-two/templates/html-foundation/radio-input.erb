@@ -1,0 +1,7 @@
+<div class="row">
+  <fieldset class="small-12 columns">
+    <legend><%= @question[:label] %></legend>
+    <% for answer, index in @question[:answers] %><input id="<%= @name %>_<%= index %>" type="radio" name="<%= @name %>" value="<%= answer %>"><label for="<%= @name %>_<%= index %>"><%= answer %></label>
+    <% end %>
+  </fieldset>
+</div>

@@ -1,0 +1,6 @@
+.row
+  fieldset.small-12.columns
+    legend <%= @question[:label] %>
+    <% for answer, index in @question[:answers] %>input#<%= @name %>_<%= index %> type="checkbox" name="<%= @name %>[]" value="<%= answer %>"
+    label for="<%= @name %>_<%= index %>" <%= answer %>
+    <% end %>

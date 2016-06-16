@@ -1,13 +1,15 @@
 require 'nokogiri'
+require 'thor'
 
-class FormtyTwo
-  def self.generate(form_id)
+class FormtyTwo < Thor
+
+  def self.generate(form_id, template_language='slim', framework_language='foundation')
 
     require 'open-uri'
 
     google_form = ['https://docs.google.com/forms/d/', '/viewform']
 
-    if !form_id || form_id = ''
+    if !form_id || form_id == ''
       return false
     end
 
@@ -16,11 +18,11 @@ class FormtyTwo
     @form = Nokogiri::HTML(open(form_url))
 
     crawler = Crawler.new(@form);
-    builder = Builder.new(crawler.get_formdata);
+    builder = Builder.new(form_id, crawler.get_formdata, template_language, framework_language);
 
-    puts builder.formerate
+    builder.formerate
 
-    return true
+    return 'Complete'
 
   end
 end
