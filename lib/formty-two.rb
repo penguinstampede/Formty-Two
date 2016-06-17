@@ -1,7 +1,6 @@
 require 'nokogiri'
-require 'thor'
 
-class FormtyTwo < Thor
+class FormtyTwo
 
   def self.generate(form_id, template_language='slim', framework_language='foundation')
 
