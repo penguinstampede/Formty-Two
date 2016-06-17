@@ -16,6 +16,10 @@ class FormtyTwo
 
     @form = Nokogiri::HTML(open(form_url))
 
+    if @form.at_css('form').attr("id") == 'gaia_loginform'
+      return 'Your form is password protected!'
+    end
+
     crawler = Crawler.new(@form);
     builder = Builder.new(form_id, crawler.get_formdata, template_language, framework_language);
 
