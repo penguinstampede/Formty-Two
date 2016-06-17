@@ -2,7 +2,7 @@ require 'nokogiri'
 
 class FormtyTwo
 
-  def self.generate(form_id, template_language='slim', framework_language='foundation')
+  def self.generate(form_id, template_language='slim', framework_language='foundation', form_dir='forms')
 
     require 'open-uri'
 
@@ -21,7 +21,7 @@ class FormtyTwo
     end
 
     crawler = Crawler.new(@form);
-    builder = Builder.new(form_id, crawler.get_formdata, template_language, framework_language);
+    builder = Builder.new(form_id, crawler.get_formdata, template_language, framework_language, form_dir);
 
     builder.formerate
 

@@ -4,21 +4,22 @@ require 'erb'
 class FormtyTwo::Builder
   attr_reader :html
 
-  def initialize(form_id, questions, template_language, framework_language)
+  def initialize(form_id, questions, template_language, framework_language, form_dir)
     @form_id = form_id
     @questions = questions
     @template_language = template_language
     @templates_folder = File.dirname(__FILE__) + "/templates/" + template_language + '-' + framework_language
+    @form_dir = form_dir
     @html = ''
   end
 
   def formerate
 
-    unless File.exists?('forms')
-      FileUtils::mkdir_p 'forms'
+    unless File.exists?(@form_dir)
+      FileUtils::mkdir_p @form_dir
     end
 
-    template_file = File.new("forms/#{ @form_id }.#{ @template_language }", 'w')
+    template_file = File.new("#{ @form_dir }/#{ @form_id }.#{ @template_language }", 'w')
     @questions.each do |key, question|
       case question[:type]
       when 'radio'

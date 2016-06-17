@@ -8,7 +8,7 @@ class FormtyTwo::Crawler
     form_inputs = @form.css "form input"
 
     form_inputs.each do |input|
-      puts input
+      #puts input
       unless input["name"].nil?
         if input["name"].include? "entry"
           crawl(input)
