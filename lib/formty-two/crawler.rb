@@ -22,35 +22,42 @@ class FormtyTwo::Crawler
 
   def crawl(input)
 
-    type = input_type(input.parent)
 
-    label = get_label(input, type)
+    # leave this out for now
 
-    if @questions[input["name"]].nil?
-      @questions[input["name"]] = {
-        :type => type,
-        :label => label
-      }
-    end
+    unless input["name"].include? 'other_option_response'
 
-    if type == 'radio'
-      answers = []
+      type = input_type(input.parent)
 
-      radio_choices = input.previous.css('.freebirdFormviewerViewItemsRadioChoice .freebirdFormviewerViewItemsRadioLabel')
-      radio_choices.each do |label|
-        answers.push(label.content)
+      label = get_label(input, type)
+
+      if @questions[input["name"]].nil?
+        @questions[input["name"]] = {
+          :type => type,
+          :label => label
+        }
       end
 
-      @questions[input["name"]][:answers] = answers
-    end
+      if type == 'radio'
+        answers = []
 
-    if type == 'checkbox'
+        radio_choices = input.previous.css('.freebirdFormviewerViewItemsRadioChoice .freebirdFormviewerViewItemsRadioLabel')
+        radio_choices.each do |label|
+          answers.push(label.content)
+        end
 
-      if @questions[input["name"]][:answers].nil?
-        @questions[input["name"]][:answers] = []
+        @questions[input["name"]][:answers] = answers
       end
 
-      @questions[input["name"]][:answers].push(input.previous.at_css('.freebirdFormviewerViewItemsCheckboxLabel').content)
+      if type == 'checkbox'
+
+        if @questions[input["name"]][:answers].nil?
+          @questions[input["name"]][:answers] = []
+        end
+
+        @questions[input["name"]][:answers].push(input.previous.at_css('.freebirdFormviewerViewItemsCheckboxLabel').content)
+      end
+
     end
 
   end
