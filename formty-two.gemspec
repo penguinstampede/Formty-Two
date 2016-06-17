@@ -9,5 +9,5 @@ Gem::Specification.new do |s|
   s.files       = ["lib/formty-two.rb", "lib/formty-two/crawler.rb", "lib/formty-two/builder.rb", "lib/formty-two/tasks.rb"]
   s.license     = 'MIT'
 
-  s.add_dependency 'nokogiri'
+  s.add_dependency 'nokogiri', '~> 1.6.7.1'
 end
