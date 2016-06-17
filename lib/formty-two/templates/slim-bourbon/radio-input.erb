@@ -1,0 +1,7 @@
+.row
+  .column
+    p <%= @question[:label] %>
+    .input-wrap
+      <% for answer, index in @question[:answers] %>input#<%= @name %>_<%= index %> type="radio" name="<%= @name %>" value="<%= answer %>"
+      label.inline for="<%= @name %>_<%= index %>" <%= answer %>
+      <% end %>
