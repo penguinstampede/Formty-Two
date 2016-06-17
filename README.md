@@ -9,5 +9,5 @@ Use the Rake task!  Add `require 'formty-two/tasks'` to your Rakefile, then on t
 ###TODO:
 
 - More templates?
-- More field types?
+- More field types? (currently just supports text/radio/checkbox)
 - How do we handle multi-page forms? (Do we?)
